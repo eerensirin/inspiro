@@ -1,55 +1,393 @@
 <!doctype html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Click2Connect Widget</title>
-  <meta name="robots" content="noindex" />
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Inspiro | CX, BPS, and Intelligent Digital Solutions</title>
+<link rel="icon" href="https://inspiro.com/wp-content/uploads/inspiro-logo.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mor:#842F89; --mor-koyu:#5e1f63; --mavi:#009DE0; --sari:#F3D449;
+    --metin:#333333; --gri:#616161; --acik:#F2F2F2; --cizgi:#E0E0E0; --beyaz:#fff;
+    --en:1240px; --r:14px;
+    --golge:0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
+    --golge-lg:0 2px 4px rgba(16,24,40,.05), 0 18px 48px rgba(16,24,40,.10);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:Roboto,system-ui,-apple-system,Segoe UI,sans-serif;color:var(--metin);
+       background:var(--beyaz);line-height:1.65;-webkit-font-smoothing:antialiased}
+  h1,h2,h3,h4,.font-h{font-family:Montserrat,system-ui,sans-serif;line-height:1.18;margin:0;letter-spacing:-.015em}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .kap{max-width:var(--en);margin:0 auto;padding:0 24px}
+  .etiket{font-family:Montserrat;font-weight:700;font-size:.74rem;letter-spacing:.18em;
+          text-transform:uppercase;color:var(--mor)}
+  .btn{display:inline-flex;align-items:center;gap:.55rem;font-family:Montserrat;font-weight:600;
+       font-size:.93rem;padding:.85rem 1.6rem;border-radius:999px;border:1.5px solid transparent;
+       cursor:pointer;transition:transform .18s ease, box-shadow .18s ease, background .18s ease}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-mor{background:var(--mor);color:#fff;box-shadow:0 6px 18px rgba(132,47,137,.28)}
+  .btn-mor:hover{background:var(--mor-koyu)}
+  .btn-cerceve{border-color:rgba(255,255,255,.55);color:#fff}
+  .btn-cerceve:hover{background:rgba(255,255,255,.12)}
+  .btn-cizgi{border-color:var(--mor);color:var(--mor)}
+  .btn-cizgi:hover{background:rgba(132,47,137,.07)}
 
-    /* Arka plan tam ekran, çok az kesme ile */
-    body {
-      background: #000 url("./background.png") no-repeat center center fixed;
-      background-size: cover;
-      position: relative;
-    }
+  /* ---------- Üst bar ---------- */
+  .ustbar{background:#2b2b2b;color:#dcdcdc;font-size:.8rem}
+  .ustbar .kap{display:flex;justify-content:flex-end;gap:1.6rem;padding-top:.5rem;padding-bottom:.5rem}
+  .ustbar a:hover{color:#fff}
 
-    /* Hafif karartma efekti */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.1);
-      pointer-events: none;
-      z-index: 1;
-    }
+  header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.92);
+         backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--cizgi)}
+  .nav{display:flex;align-items:center;gap:2rem;padding-top:.9rem;padding-bottom:.9rem}
+  .logo img{height:38px;width:auto}
+  .menu{display:flex;gap:1.7rem;margin-left:auto;align-items:center}
+  .menu a{font-family:Montserrat;font-weight:600;font-size:.92rem;color:#2f2f2f;padding:.4rem 0;
+          position:relative}
+  .menu a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:2px;background:var(--mor);
+                 transition:right .25s ease}
+  .menu a:hover::after{right:0}
+  .mnav{display:none}
 
-    /* Widget container (sağ alt köşe) */
-    #widget-root {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 9999;
-    }
-  </style>
+  /* ---------- Hero ---------- */
+  .hero{position:relative;color:#fff;overflow:hidden;
+        background:radial-gradient(1100px 620px at 78% 18%, rgba(0,157,224,.42), transparent 62%),
+                   radial-gradient(900px 560px at 14% 82%, rgba(243,212,73,.20), transparent 60%),
+                   linear-gradient(135deg,#3d1142 0%,#842F89 46%,#2b2460 100%)}
+  .hero::after{content:"";position:absolute;inset:0;opacity:.17;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);
+    background-size:58px 58px;
+    -webkit-mask-image:radial-gradient(70% 60% at 60% 40%,#000,transparent 75%);
+            mask-image:radial-gradient(70% 60% at 60% 40%,#000,transparent 75%)}
+  .hero .kap{position:relative;z-index:2;padding:7rem 24px 6.5rem;max-width:960px;margin:0 auto;text-align:center}
+  .hero h1{font-size:clamp(2.3rem,5.4vw,4.1rem);font-weight:800}
+  .hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--sari),#fff);
+              -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{margin:1.5rem auto 2.3rem;max-width:720px;font-size:1.1rem;color:rgba(255,255,255,.90);font-weight:300}
+  .hero-btn{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+
+  /* ---------- Haber şeridi ---------- */
+  .haber{background:var(--acik);border-bottom:1px solid var(--cizgi)}
+  .haber .kap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;padding:1.5rem 24px}
+  .haber-k{display:flex;gap:1rem;align-items:flex-start}
+  .haber-k .nokta{flex:none;width:9px;height:9px;border-radius:50%;background:var(--mavi);margin-top:.55rem}
+  .haber-k p{margin:0;font-size:.94rem;font-weight:500}
+  .haber-k a{color:var(--mor);font-weight:600;font-size:.86rem;font-family:Montserrat}
+
+  /* ---------- Bölümler ---------- */
+  section{padding:6rem 0}
+  .bolum-bas{max-width:780px;margin-bottom:3.2rem}
+  .bolum-bas.orta{margin-left:auto;margin-right:auto;text-align:center}
+  .bolum-bas h2{font-size:clamp(1.85rem,3.4vw,2.7rem);font-weight:700;margin:.85rem 0 0}
+  .bolum-bas p{color:var(--gri);font-size:1.06rem;margin:1.1rem 0 0;font-weight:300}
+  .gri{background:var(--acik)}
+
+  .ikili{display:grid;grid-template-columns:1.05fr .95fr;gap:4rem;align-items:center}
+  .liste{list-style:none;padding:0;margin:1.6rem 0 0;display:grid;gap:.95rem}
+  .liste li{position:relative;padding-left:2rem;color:#454545}
+  .liste li::before{content:"";position:absolute;left:0;top:.62em;width:11px;height:11px;border-radius:3px;
+                    background:linear-gradient(135deg,var(--mor),var(--mavi))}
+
+  .kartlar{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+  .kart{background:#fff;border:1px solid var(--cizgi);border-radius:var(--r);padding:2.1rem 1.9rem;
+        box-shadow:var(--golge);transition:transform .22s ease, box-shadow .22s ease;position:relative;overflow:hidden}
+  .kart::before{content:"";position:absolute;left:0;top:0;height:4px;width:100%;
+                background:linear-gradient(90deg,var(--mor),var(--mavi));transform:scaleX(0);
+                transform-origin:left;transition:transform .3s ease}
+  .kart:hover{transform:translateY(-6px);box-shadow:var(--golge-lg)}
+  .kart:hover::before{transform:scaleX(1)}
+  .kart h3{font-size:1.2rem;font-weight:700;margin-bottom:.7rem}
+  .kart p{color:var(--gri);font-size:.96rem;margin:0}
+  .kart .ikon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;margin-bottom:1.2rem;
+              background:rgba(132,47,137,.09);color:var(--mor)}
+  .kart .ikon svg{width:23px;height:23px}
+
+  .kaldirac{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3rem}
+  .kaldirac .k{text-align:center;padding:2.3rem 1.2rem;border-radius:var(--r);background:#fff;
+               border:1px solid var(--cizgi)}
+  .kaldirac .n{font-family:Montserrat;font-weight:800;font-size:2.1rem;
+               background:linear-gradient(135deg,var(--mor),var(--mavi));-webkit-background-clip:text;
+               background-clip:text;color:transparent}
+  .kaldirac h4{margin:.6rem 0 .4rem;font-size:1.04rem}
+  .kaldirac p{margin:0;color:var(--gri);font-size:.9rem}
+
+  /* iX şeridi */
+  .ix{color:#fff;background:linear-gradient(120deg,#1b1038,#842F89 58%,#009DE0 130%);border-radius:22px;
+      padding:4rem 3.4rem;display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+  .ix h2{font-size:clamp(1.8rem,3vw,2.45rem);font-weight:700}
+  .ix p{color:rgba(255,255,255,.9);font-weight:300;margin:1.1rem 0 2rem}
+  .ix-kutu{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+  .ix-kutu span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:11px;
+                padding:.95rem 1.1rem;font-family:Montserrat;font-weight:600;font-size:.92rem}
+
+  .vaka{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+  .vaka article{background:#fff;border:1px solid var(--cizgi);border-radius:var(--r);overflow:hidden;
+                display:flex;flex-direction:column;transition:transform .22s ease, box-shadow .22s ease}
+  .vaka article:hover{transform:translateY(-6px);box-shadow:var(--golge-lg)}
+  .vaka .ust{height:7px;background:linear-gradient(90deg,var(--mor),var(--mavi))}
+  .vaka .ic{padding:1.9rem;display:flex;flex-direction:column;gap:.85rem;flex:1}
+  .vaka .rozet{align-self:flex-start;font-family:Montserrat;font-weight:700;font-size:.68rem;letter-spacing:.12em;
+               text-transform:uppercase;color:var(--mavi);background:rgba(0,157,224,.1);
+               padding:.3rem .7rem;border-radius:999px}
+  .vaka h3{font-size:1.06rem;font-weight:700}
+  .vaka p{color:var(--gri);font-size:.93rem;margin:0;flex:1}
+  .vaka .oku{font-family:Montserrat;font-weight:600;font-size:.87rem;color:var(--mor)}
+
+  .sayilar{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;text-align:center}
+  .sayilar .s{padding:1.6rem .8rem}
+  .sayilar .v{font-family:Montserrat;font-weight:800;font-size:clamp(2rem,3.6vw,2.9rem);color:var(--mor)}
+  .sayilar .e{color:var(--gri);font-size:.92rem;margin-top:.3rem}
+
+  .yazi{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+  .yazi a{border:1px solid var(--cizgi);border-radius:var(--r);padding:1.7rem;background:#fff;
+          transition:border-color .2s ease, transform .2s ease}
+  .yazi a:hover{border-color:var(--mor);transform:translateY(-4px)}
+  .yazi .t{font-family:Montserrat;font-weight:700;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
+           color:var(--mavi)}
+  .yazi h3{font-size:1.02rem;margin-top:.7rem;font-weight:600;line-height:1.45}
+
+  .cta{background:linear-gradient(135deg,#2b2460,#842F89);color:#fff;text-align:center;border-radius:22px;
+       padding:4.4rem 2rem}
+  .cta h2{font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:700}
+  .cta p{color:rgba(255,255,255,.88);font-weight:300;max-width:620px;margin:1.1rem auto 2.2rem}
+
+  footer{background:#232323;color:#b9b9b9;padding:4.5rem 0 2rem;font-size:.92rem}
+  .fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:2.6rem}
+  footer h5{font-family:Montserrat;color:#fff;font-size:.92rem;margin:0 0 1.1rem;letter-spacing:.04em}
+  footer ul{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}
+  footer a:hover{color:#fff}
+  footer .logo img{height:34px;filter:brightness(0) invert(1)}
+  .falt{border-top:1px solid #3a3a3a;margin-top:3rem;padding-top:1.5rem;display:flex;justify-content:space-between;
+        gap:1rem;flex-wrap:wrap;font-size:.84rem;color:#8d8d8d}
+
+  .demo-rozet{position:fixed;left:16px;bottom:16px;z-index:9998;background:rgba(35,35,35,.9);color:#fff;
+              font-family:Montserrat;font-size:.72rem;font-weight:600;letter-spacing:.06em;padding:.5rem .9rem;
+              border-radius:999px;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+
+  @media (max-width:980px){
+    .menu{display:none}
+    .ikili,.ix{grid-template-columns:1fr;gap:2.4rem}
+    .kartlar,.vaka,.yazi{grid-template-columns:1fr}
+    .kaldirac,.sayilar{grid-template-columns:repeat(2,1fr)}
+    .haber .kap{grid-template-columns:1fr;gap:1.1rem}
+    .fgrid{grid-template-columns:1fr 1fr}
+    section{padding:4rem 0}
+    .ix{padding:2.6rem 1.8rem}
+    .hero .kap{padding:4.6rem 24px 4.2rem}
+  }
+  @media (max-width:560px){
+    .kaldirac,.sayilar,.fgrid{grid-template-columns:1fr}
+    .ix-kutu{grid-template-columns:1fr}
+    .ustbar{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+</style>
 </head>
 <body>
-  <div class="overlay"></div>
-  <div id="widget-root"></div>
 
-  <!-- Click2Connect Widget -->
- <script type="text/javascript" src="//inspiro.callcenterstudio.com/click2connects/click2connect.js?widget_key=ahRzfm11c3RlcmktaGl6bWV0bGVyaXIhCxIUQ2xpY2syQ29ubmVjdFBhY2thZ2UYgIDGituSrgsMogEcaW5zcGlyby5jYWxsY2VudGVyc3R1ZGlvLmNvbQ"></script>
- <script type="text/javascript">
-	startWidget();
-</script>
+<div class="ustbar"><div class="kap">
+  <a href="#">Customer Success</a><a href="#">Careers</a><a href="#">Investor Relations</a><a href="#">EN</a>
+</div></div>
 
+<header><div class="kap nav">
+  <a class="logo" href="#"><img src="https://inspiro.com/wp-content/uploads/inspiro-logo.svg" alt="Inspiro" /></a>
+  <nav class="menu">
+    <a href="#neden">Why Inspiro?</a>
+    <a href="#cozumler">Solutions</a>
+    <a href="#sektorler">Industries</a>
+    <a href="#ix">Inspiro iX</a>
+    <a href="#vakalar">Customer Success</a>
+    <a href="#icgoru">Insights</a>
+    <a class="btn btn-mor" href="#iletisim">Contact Us</a>
+  </nav>
+</div></header>
 
+<div class="hero"><div class="kap">
+  <h1>Meet Inspiro iX:<br/><em>Intelligence that Moves</em><br/>at the Speed of Your Business</h1>
+  <p>An integrated AI suite that unifies generative automation, advanced analytics, agent-assist tools
+     and workforce intelligence — elevating every interaction and accelerating enterprise-wide performance.</p>
+  <div class="hero-btn">
+    <a class="btn btn-mor" href="#ix">Explore Inspiro iX</a>
+    <a class="btn btn-cerceve" href="#cozumler">Explore Our Solutions</a>
+  </div>
+</div></div>
 
+<div class="haber"><div class="kap">
+  <div class="haber-k"><span class="nokta"></span><div>
+    <p>Altius Inspiro inaugurates landmark Dumaguete hub.</p><a href="#">Read here →</a></div></div>
+  <div class="haber-k"><span class="nokta"></span><div>
+    <p>Second consecutive Fortress Cybersecurity Award for network security excellence.</p><a href="#">Read here →</a></div></div>
+</div></div>
+
+<section id="neden"><div class="kap">
+  <div class="ikili">
+    <div>
+      <span class="etiket">Who we are</span>
+      <h2 style="font-size:clamp(1.9rem,3.4vw,2.7rem);margin:.8rem 0 0">Where Expertise Meets Intelligent Innovation</h2>
+      <p style="color:var(--gri);font-weight:300;margin-top:1.2rem">
+        Inspiro is redefining how global brands connect, support and grow through the fusion of human expertise
+        and intelligent technology. As a leader in Business Process Services and Digital CX, we help Fortune 1000
+        companies turn interactions into impact — backed by Altius Link, Inc., a partnership between KDDI
+        Corporation and Mitsui &amp; Co., Ltd.</p>
+      <ul class="liste">
+        <li>Transform business functions with scalable, enterprise-ready solutions</li>
+        <li>Deliver seamless, consistent interactions across every channel</li>
+        <li>Integrate AI and automation responsibly into core workflows</li>
+        <li>Accelerate digital transformation without disrupting continuity</li>
+      </ul>
+      <div style="margin-top:2rem"><a class="btn btn-cizgi" href="#">Learn more about Altius Link</a></div>
+    </div>
+    <div class="sayilar" style="grid-template-columns:1fr 1fr;text-align:left">
+      <div class="s"><div class="v">30+</div><div class="e">Years of CX leadership</div></div>
+      <div class="s"><div class="v">Fortune<br/>1000</div><div class="e">Global brands served</div></div>
+      <div class="s"><div class="v">24/7</div><div class="e">Omnichannel delivery</div></div>
+      <div class="s"><div class="v">KDDI</div><div class="e">&amp; Mitsui backed</div></div>
+    </div>
+  </div>
+</div></section>
+
+<section class="gri" id="cozumler"><div class="kap">
+  <div class="bolum-bas orta">
+    <span class="etiket">How we deliver</span>
+    <h2>Powering the World's Most Human Digital Experiences</h2>
+    <p>From CX to BPS to AI, we help leading brands optimize performance, lift customer satisfaction
+       and future-proof operations through intelligent automation and decades of expertise.</p>
+  </div>
+  <div class="kartlar">
+    <div class="kart">
+      <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h12"/></svg></div>
+      <h3>Business Process Services</h3>
+      <p>Strategy and consulting, business process support, managed IT and security, F&amp;A, HR and
+         marketing support — engineered for scale.</p>
+    </div>
+    <div class="kart">
+      <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <h3>Digital Customer Experience</h3>
+      <p>Customer service, sales, technical support, social media CX, loyalty and retention, billing,
+         collections, trust and safety.</p>
+    </div>
+    <div class="kart">
+      <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.07-5.07-2.83 2.83M9.76 14.24l-2.83 2.83m0-10.14 2.83 2.83m4.48 4.48 2.83 2.83"/></svg></div>
+      <h3>Digital Solutions</h3>
+      <p>Generative and conversational AI, intelligent automation, analytics and agent-assist built
+         into your existing environment.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="sektorler"><div class="kap">
+  <div class="bolum-bas orta">
+    <span class="etiket">Our framework for transformation</span>
+    <h2>Four Levers. One Intelligent Engine.</h2>
+    <p>Transformation thrives where intent meets intelligence. Four levers fuel every Inspiro partnership,
+       translating strategy into action and sustained human impact.</p>
+  </div>
+  <div class="kaldirac">
+    <div class="k"><div class="n">01</div><h4>Strategy</h4><p>Align operating models to business outcomes.</p></div>
+    <div class="k"><div class="n">02</div><h4>Technology</h4><p>Practical AI and automation that scales.</p></div>
+    <div class="k"><div class="n">03</div><h4>Lean Six Sigma</h4><p>Process rigour that removes friction.</p></div>
+    <div class="k"><div class="n">04</div><h4>People</h4><p>Specialized talent, continuously enabled.</p></div>
+  </div>
+</div></section>
+
+<section class="gri" id="ix"><div class="kap"><div class="ix">
+  <div>
+    <span class="etiket" style="color:var(--sari)">Inspiro iX</span>
+    <h2 style="margin-top:.8rem">Intelligence That Elevates Every Experience</h2>
+    <p>Our intelligent experience layer enhances CX, strengthens operations and accelerates digital
+       transformation — purpose-built to integrate seamlessly with your environment.</p>
+    <a class="btn btn-cerceve" href="#iletisim">Explore More iX Solutions</a>
+  </div>
+  <div class="ix-kutu">
+    <span>Generative AI</span><span>Advanced Analytics</span>
+    <span>Agent Assist</span><span>Workforce Intelligence</span>
+  </div>
+</div></div></section>
+
+<section id="vakalar"><div class="kap">
+  <div class="bolum-bas orta">
+    <span class="etiket">From friction to flow</span>
+    <h2>Client Success Stories</h2>
+    <p>Across industries and regions, Inspiro partners with leading global brands to turn goals into
+       measurable outcomes.</p>
+  </div>
+  <div class="vaka">
+    <article><div class="ust"></div><div class="ic">
+      <span class="rozet">Automation</span>
+      <h3>Lean Six Sigma Through Intelligent Automation</h3>
+      <p>How Agent X accelerated DMAIC execution and removed the time constraints slowing project leaders down.</p>
+      <span class="oku">Read More →</span></div></article>
+    <article><div class="ust"></div><div class="ic">
+      <span class="rozet">Banking</span>
+      <h3>50% Faster. Fully Compliant. Future-Proof.</h3>
+      <p>A scalable fraud management ecosystem engineered for a leading Philippine bank facing surging case volumes.</p>
+      <span class="oku">Read More →</span></div></article>
+    <article><div class="ust"></div><div class="ic">
+      <span class="rozet">Payroll</span>
+      <h3>Zero Payroll Delays for 20,000+ Employees</h3>
+      <p>Accurate, scalable and fully compliant payroll delivered for a major Philippine conglomerate.</p>
+      <span class="oku">Read More →</span></div></article>
+  </div>
+</div></section>
+
+<section class="gri" id="icgoru"><div class="kap">
+  <div class="bolum-bas orta"><span class="etiket">Insights</span><h2>Recent Articles</h2>
+    <p>Expert perspectives on emerging trends in CX, BPS and AI innovation.</p></div>
+  <div class="yazi">
+    <a href="#"><div class="t">Blog</div><h3>From Topline to Bottom Line: How BPS Is Becoming Telecom's Growth Lever</h3></a>
+    <a href="#"><div class="t">Blog</div><h3>What Is Managed IT Services? A Guide to Scalable Infrastructure</h3></a>
+    <a href="#"><div class="t">Blog</div><h3>Revenue Assurance in the Age of AI: Catching Billing Errors Early</h3></a>
+  </div>
+</div></section>
+
+<section id="iletisim"><div class="kap"><div class="cta">
+  <h2>Let's Build What's Next</h2>
+  <p>Talk to our team about how intelligent CX and process excellence can move your business forward.
+     Start a conversation right now — our agents are one click away.</p>
+  <a class="btn btn-mor" style="background:#fff;color:var(--mor);box-shadow:0 6px 20px rgba(0,0,0,.2)"
+     href="#" onclick="try{triggerMaximise&&triggerMaximise()}catch(e){};return false;">Chat with us</a>
+</div></div></section>
+
+<footer><div class="kap">
+  <div class="fgrid">
+    <div>
+      <div class="logo"><img src="https://inspiro.com/wp-content/uploads/inspiro-logo.svg" alt="Inspiro" /></div>
+      <p style="margin-top:1.1rem;max-width:300px">Business Process Services and Digital Customer Experience
+         for the world's leading brands. An Altius Link company.</p>
+    </div>
+    <div><h5>Solutions</h5><ul>
+      <li><a href="#cozumler">Business Process Services</a></li>
+      <li><a href="#cozumler">Digital CX</a></li>
+      <li><a href="#cozumler">Digital Solutions</a></li>
+      <li><a href="#ix">Inspiro iX</a></li></ul></div>
+    <div><h5>Company</h5><ul>
+      <li><a href="#neden">Why Inspiro?</a></li>
+      <li><a href="#vakalar">Customer Success</a></li>
+      <li><a href="#icgoru">Insights</a></li>
+      <li><a href="#">Careers</a></li></ul></div>
+    <div><h5>Contact</h5><ul>
+      <li><a href="#iletisim">Contact Us</a></li>
+      <li><a href="#">Investor Relations</a></li>
+      <li><a href="#">Privacy Policy</a></li></ul></div>
+  </div>
+  <div class="falt">
+    <span>© 2026 Inspiro. All rights reserved.</span>
+    <span>Demo environment — Call Center Studio Click2Connect</span>
+  </div>
+</div></footer>
+
+<div class="demo-rozet">DEMO · Click2Connect</div>
+
+<!-- Click2Connect Widget -->
+<script type="text/javascript" src="//inspiro.callcenterstudio.com/click2connects/click2connect.js?widget_key=ahRzfm11c3RlcmktaGl6bWV0bGVyaXIhCxIUQ2xpY2syQ29ubmVjdFBhY2thZ2UYgIDGituSrgsMogEcaW5zcGlyby5jYWxsY2VudGVyc3R1ZGlvLmNvbQ"></script>
+<script type="text/javascript">startWidget();</script>
 
 </body>
 </html>
